@@ -8,13 +8,9 @@ use ggez::{
 
 use std::collections::VecDeque;
 
-// The first thing we want to do is set up some constants that will help us out later.
-
-// Here we define the size of our game board in terms of how many grid
-// cells it will take up. We choose to make a 30 x 20 game board.
-const GRID_SIZE: (i16, i16) = (30, 20);
+const GRID_SIZE: (i16, i16) = (40, 30);
 // Now we define the pixel size of each tile, which we make 32x32 pixels.
-const GRID_CELL_SIZE: (i16, i16) = (32, 32);
+const GRID_CELL_SIZE: (i16, i16) = (42, 42);
 
 // Next we define how large we want our actual window to be by multiplying
 // the components of our grid size by its corresponding pixel size.
@@ -26,10 +22,6 @@ const SCREEN_SIZE: (f32, f32) = (
 // 1秒間にupdateが呼ばれる回数
 const DESIRED_FPS: u32 = 8;
 
-/// Now we define a struct that will hold an entity's position on our game board
-/// or grid which we defined above. We'll use signed integers because we only want
-/// to store whole numbers, and we need them to be signed so that they work properly
-/// with our modulus arithmetic later.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 struct GridPosition {
     x: i16,
@@ -326,7 +318,7 @@ impl event::EventHandler<ggez::GameError> for GameState {
     fn draw(&mut self, ctx: &mut Context) -> GameResult {
         // canvasインスタンスを作成、描画
         let mut canvas =
-            graphics::Canvas::from_frame(ctx, graphics::Color::from([0.0, 1.0, 0.0, 1.0]));
+            graphics::Canvas::from_frame(ctx, graphics::Color::from([0.0, 0.0, 0.0, 0.0]));
 
         // snakeとfoodを描画
         self.snake.draw(&mut canvas);
@@ -341,7 +333,7 @@ impl event::EventHandler<ggez::GameError> for GameState {
         Ok(())
     }
 
-    /// `key_down_event` gets fired when a key gets pressed.
+    /// キーが押されたタイミングで呼ばれる
     fn key_down_event(&mut self, _ctx: &mut Context, input: KeyInput, _repeat: bool) -> GameResult {
         // key入力を受け取る
         if let Some(dir) = input.keycode.and_then(Direction::from_keycode) {
